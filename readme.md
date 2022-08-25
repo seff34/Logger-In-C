@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 Clone Project
 
 ```bash
-  https://github.com/seff34/Logger-In-C
+  git clone https://github.com/seff34/Logger-In-C
 ```
 
 
