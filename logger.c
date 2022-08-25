@@ -1,6 +1,6 @@
-#include "logController.h"
+#include "logger.h"
 
-logLevel_t logLevel; 
+extern logLevel_t logLevel; 
 
 /**
  * @brief  Debug Level Name 
@@ -23,7 +23,6 @@ static const char *debugLevelGetString(logLevel_t selectLogLevel)
 		return "WARN";
 	else if(selectLogLevel <= INFO)
 		return "INFO";
-    //else if (selectLogLevel <= DEBUG)
     return "DEBUG";
 }
 

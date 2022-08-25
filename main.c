@@ -1,9 +1,9 @@
-#include "logController.h"
+#include "logger.h"
+
+logLevel_t logLevel;
 
 int main(int argc, char **argv)
 {
-    //(void)argc;
-    //(void)argv; 
     if ( argc != 2 )
     {
         printf("Parameter Error < Debug Level 0 - 3 >\n");

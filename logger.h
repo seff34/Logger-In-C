@@ -3,21 +3,9 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <math.h>
-#include <unistd.h>
 #include <time.h>
-#include <dirent.h> 
-
-#define IS_SUCCESS(__rc__) (((int32_t)__rc__) >= 0)
-#define IS_FAIL(__rc__) (((int32_t)__rc__) < 0)
-
-#define SUCCESS 0 
-#define FAIL -1 
 
 typedef enum
 {
