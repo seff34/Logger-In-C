@@ -2,13 +2,13 @@
 
 logLevel_t logLevel;
 
+// ./logController 3 >> output.txt 2>> error.txt
+// ./logController 3 >> output.txt 2>&1
+// ./logController 3 2>>error.txt  1>>output.txt 2>&1    
+
 int main(int argc, char **argv)
 {
-    if ( argc != 2 )
-    {
-        printf("Parameter Error < Debug Level 0 - 3 >\n");
-        return EXIT_FAILURE;
-    }
+    (void)argc;
     logLevel = atoi(argv[1]);
 
     flogger(ERROR,"test %d",logLevel); 

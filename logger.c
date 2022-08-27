@@ -28,23 +28,28 @@ static const char *debugLevelGetString(logLevel_t selectLogLevel)
 
 void logger(logLevel_t selectLogLevel, const char *format,...) 
 {
+    FILE *output = stdout; 
     va_list va;
 	va_start(va,format);
 
     time_t TIME = time(NULL);
     struct tm time = *localtime(&TIME);
 
+    if ( selectLogLevel == ERROR )
+        output = stderr ; 
+
     if ( selectLogLevel <= logLevel )
     {
-        fprintf(stdout,"[%s]: %02d/%02d/%04d %02d:%02d:%02d "
+        fprintf(output,"[%s]: %02d/%02d/%04d %02d:%02d:%02d "
                     , debugLevelGetString(selectLogLevel)
                         , time.tm_mday, time.tm_mon + 1, time.tm_year + 1900
                                 , time.tm_hour, time.tm_min, time.tm_sec);
 
-        vfprintf(stdout,format,va);
+        vfprintf(output,format,va);
         va_end(va);
-        fprintf(stdout,"\n");
+        fprintf(output,"\n");
     }
+
 }
 void flogger(logLevel_t selectLogLevel, const char *format,...) 
 {
