@@ -1,76 +1,64 @@
 #include "logger.h"
 
-extern logLevel_t logLevel; 
+logLevel_t logLevel = ERROR;
 
 /**
- * @brief  Debug Level Name 
- * @param  [in] selectLogLevel 
- * @return [const char*] Debug Level String 
- */
-static const char *debugLevelGetString(logLevel_t selectLogLevel);
-
-
-/**
- * @brief  Debug Level Name 
- * @param  [in] selectLogLevel 
- * @return [const char*] Debug Level String 
+ * @brief  Debug Level Name
+ * @param  [in] selectLogLevel
+ * @return [const char*] Debug Level String
  */
 static const char *debugLevelGetString(logLevel_t selectLogLevel)
 {
-	if(selectLogLevel <= ERROR)
-		return "ERROR";
-	else if(selectLogLevel <= WARNING)
-		return "WARN";
-	else if(selectLogLevel <= INFO)
-		return "INFO";
-    return "DEBUG";
+    if (selectLogLevel <= ERROR)
+        return "ERROR";
+    else if (selectLogLevel <= WARNING)
+        return "WARN";
+    else if (selectLogLevel <= INFO)
+        return "INFO";
+    return "DEBG";
 }
 
-void logger(logLevel_t selectLogLevel, const char *format,...) 
+void logger(logLevel_t selectLogLevel, const char *format, ...)
 {
-    FILE *output = stdout; 
     va_list va;
-	va_start(va,format);
+    va_start(va, format);
 
-    time_t TIME = time(NULL);
-    struct tm time = *localtime(&TIME);
-
-    if ( selectLogLevel == ERROR )
-        output = stderr ; 
-
-    if ( selectLogLevel <= logLevel )
+    if (selectLogLevel <= logLevel)
     {
-        fprintf(output,"[%s]: %02d/%02d/%04d %02d:%02d:%02d "
-                    , debugLevelGetString(selectLogLevel)
-                        , time.tm_mday, time.tm_mon + 1, time.tm_year + 1900
-                                , time.tm_hour, time.tm_min, time.tm_sec);
+        char timeBuf[30];
+        time_t TIME = time(NULL);
+        struct tm *timenow = gmtime(&TIME);
+        strftime(timeBuf, sizeof(timeBuf), "%Y/%m/%d %X", timenow);
 
-        vfprintf(output,format,va);
-        va_end(va);
-        fprintf(output,"\n");
+        fprintf(stdout, "[%s]: %s ", debugLevelGetString(selectLogLevel), timeBuf);
+        vfprintf(stdout, format, va);
     }
-
+    va_end(va);
+    return;
 }
-void flogger(logLevel_t selectLogLevel, const char *format,...) 
+
+void flogger(logLevel_t selectLogLevel, const char *format, ...)
 {
     va_list va;
-	va_start(va,format);
+    va_start(va, format);
 
-    time_t TIME = time(NULL);
-    struct tm time = *localtime(&TIME);
-
-    if ( selectLogLevel <= logLevel )
+    if (selectLogLevel <= logLevel)
     {
-        FILE* file = fopen("log.txt", "a");
-        fprintf(file,"[%s]: %02d/%02d/%04d %02d:%02d:%02d "
-                    , debugLevelGetString(selectLogLevel)
-                        , time.tm_mday, time.tm_mon + 1, time.tm_year + 1900
-                                , time.tm_hour, time.tm_min, time.tm_sec);
+        char filename[60];
+        char timeBuf[30];
+        time_t TIME = time(NULL);
+        struct tm *timenow = gmtime(&TIME);
 
-        vfprintf(file,format,va);
+        strftime(filename, sizeof(filename), "%Y_%m_%d_App.log", timenow);
+        strftime(timeBuf, sizeof(timeBuf), "%Y/%m/%d %X", timenow);
+        FILE *file = fopen(filename, "a");
+        fprintf(file, "[%s]: %s ", debugLevelGetString(selectLogLevel),timeBuf);
+
+        vfprintf(file, format, va);
         va_end(va);
-        fprintf(file,"\n");
         fclose(file);
+        return;
     }
- 
+    va_end(va);
+    return;
 }

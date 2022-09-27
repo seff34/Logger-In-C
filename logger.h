@@ -1,5 +1,5 @@
-#ifndef __LOG__CONTROLLER
-#define __LOG__CONTROLLER
+#ifndef __LOGGER__H
+#define __LOGGER__H
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -14,7 +14,8 @@ typedef enum
     INFO    = 2, 
     DEBUG   = 3, 
 }logLevel_t; 
-extern logLevel_t logLevel; 
+
+extern logLevel_t logLevel;
 
 /**
  * @brief Logger by stdout
