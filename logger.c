@@ -1,6 +1,6 @@
 #include "logger.h"
 
-logLevel_t logLevel = ERROR;
+static logLevel_t logLevel = DEBUG;
 
 /**
  * @brief  Debug Level Name
@@ -16,6 +16,11 @@ static const char *debugLevelGetString(logLevel_t selectLogLevel)
     else if (selectLogLevel <= INFO)
         return "INFO";
     return "DEBG";
+}
+
+void setLogLevel(logLevel_t LOG_LEVEL)
+{
+    logLevel = LOG_LEVEL;
 }
 
 void logger(logLevel_t selectLogLevel, const char *format, ...)
@@ -36,7 +41,6 @@ void logger(logLevel_t selectLogLevel, const char *format, ...)
     va_end(va);
     return;
 }
-
 void flogger(logLevel_t selectLogLevel, const char *format, ...)
 {
     va_list va;

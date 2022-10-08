@@ -3,9 +3,6 @@
 
 Logger by File or Stdout with C Standard Libs.
 
-
-
-
 ## API Functions
 
 #### Log Level Structure
@@ -19,6 +16,15 @@ typedef enum
 }logLevel_t; 
 ```
 
+#### Set Log Level
+```c
+void setLogLevel(logLevel_t LOG_LEVEL);
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `LOG_LEVEL` | `logLevel_t` | Set Log Level|
+
+
 #### Logger by Stdout
 ```c
 void logger(logLevel_t selectLogLevel, const char *format,...);
@@ -30,7 +36,7 @@ void logger(logLevel_t selectLogLevel, const char *format,...);
 | `format` | `const char *` | Print Format|
 | `...` |`all type`   | Print Data|
 
-#### Logger by Stdout
+#### Logger by File( yyyy_mm_dd_App.log )
 ```c
 void flogger(logLevel_t selectLogLevel, const char *format,...);
 ```
@@ -43,28 +49,24 @@ void flogger(logLevel_t selectLogLevel, const char *format,...);
 
 #### Example Code
 ```c
-#include "logController.h"
-
-logLevel_t logLevel;
+#include "logger.h"
 
 int main(int argc, char **argv)
 {
-    if ( argc != 2 )
-    {
-        printf("Parameter Error < Debug Level 0 - 3 >\n");
-        return EXIT_FAILURE;
-    }
-    logLevel = atoi(argv[1]);
+    (void)argc;
+    (void)argv;
 
-    flogger(ERROR,"test %d",logLevel); 
-    flogger(WARNING,"test %d",logLevel);   
-    flogger(INFO,"test %d",logLevel);  
-    flogger(DEBUG,"test %d",logLevel);   
+    setLogLevel(DEBUG);
 
-    logger(ERROR,"test %d",logLevel);   
-    logger(WARNING,"test %d",logLevel);   
-    logger(INFO,"test %d",logLevel);   
-    logger(DEBUG,"test %d",logLevel); 
+    logger(ERROR  ,"ERROR TEST\n"); 
+    logger(WARNING,"WARNING TEST\n");   
+    logger(INFO   ,"INFO TEST\n");  
+    logger(DEBUG  ,"test \n");   
+
+    flogger(ERROR  ,"ERROR TEST\n"); 
+    flogger(WARNING,"WARNING TEST\n");   
+    flogger(INFO   ,"INFO TEST\n");  
+    flogger(DEBUG  ,"test \n");   
 
     return EXIT_SUCCESS;
 }

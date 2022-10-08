@@ -15,7 +15,11 @@ typedef enum
     DEBUG   = 3, 
 }logLevel_t; 
 
-extern logLevel_t logLevel;
+/**
+ * @brief Set the Log Level object
+ * @param LOG_LEVEL Selection
+ */
+void setLogLevel(logLevel_t LOG_LEVEL);
 
 /**
  * @brief Logger by stdout
