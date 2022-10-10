@@ -11,15 +11,10 @@ int main(int argc, char **argv)
 
     setLogLevel(DEBUG);
 
-    logger(ERROR  ,"ERROR TEST\n"); 
-    logger(WARNING,"WARNING TEST\n");   
-    logger(INFO   ,"INFO TEST\n");  
-    logger(DEBUG  ,"test \n");   
-
-    flogger(ERROR  ,"ERROR TEST\n"); 
-    flogger(WARNING,"WARNING TEST\n");   
-    flogger(INFO   ,"INFO TEST\n");  
-    flogger(DEBUG  ,"test \n");   
+    debugError("ERROR TEST\n"); 
+    debugWarning("WARNING TEST\n");   
+    debugInfo("INFO TEST\n");  
+    debugf("test \n");   
 
     return EXIT_SUCCESS;
 }
