@@ -9,7 +9,7 @@ Logger by File or Stdout with C Standard Libs.
 ```c
 typedef enum
 {
-	ASSERT  = 0,
+    ASSERT  = 0,
     ERROR   = 1,
     WARNING = 2,
     INFO    = 3,
