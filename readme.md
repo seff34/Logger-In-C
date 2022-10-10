@@ -9,68 +9,36 @@ Logger by File or Stdout with C Standard Libs.
 ```c
 typedef enum
 {
-    ERROR   = 0,
-    WARNING = 1,
-    INFO    = 2, 
-    DEBUG   = 3, 
-}logLevel_t; 
+	ASSERT  = 0,
+    ERROR   = 1,
+    WARNING = 2,
+    INFO    = 3,
+    DEBUG   = 4,
+}logLevel_t;
 ```
 
 #### Set Log Level
 ```c
-void setLogLevel(logLevel_t LOG_LEVEL);
+void setLogLevel(logLevel_t logLevel);
 ```
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `LOG_LEVEL` | `logLevel_t` | Set Log Level|
+| `logLevel` | `logLevel_t` | Set Log Level|
 
 
 #### Logger by Stdout
 ```c
-void logger(logLevel_t selectLogLevel, const char *format,...);
+#define debugAssert(...) 	debug_printf(ASSERT ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugError(...) 	debug_printf(ERROR  ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugWarning(...) 	debug_printf(WARNING,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugInfo(...) 	    debug_printf(INFO   ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugf(...) 	    debug_printf(DEBUG  ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
 ```
-
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `selectLogLevel` | `logLevel_t` | Log Level Selection|
 | `format` | `const char *` | Print Format|
 | `...` |`all type`   | Print Data|
-
-#### Logger by File( yyyy_mm_dd_App.log )
-```c
-void flogger(logLevel_t selectLogLevel, const char *format,...);
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `selectLogLevel` | `logLevel_t` | Log Level Selection|
-| `format` | `const char *` | Print Format|
-| `...` |`all type`   | Print Data|
-
-#### Example Code
-```c
-#include "logger.h"
-
-int main(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-
-    setLogLevel(DEBUG);
-
-    logger(ERROR  ,"ERROR TEST\n"); 
-    logger(WARNING,"WARNING TEST\n");   
-    logger(INFO   ,"INFO TEST\n");  
-    logger(DEBUG  ,"test \n");   
-
-    flogger(ERROR  ,"ERROR TEST\n"); 
-    flogger(WARNING,"WARNING TEST\n");   
-    flogger(INFO   ,"INFO TEST\n");  
-    flogger(DEBUG  ,"test \n");   
-
-    return EXIT_SUCCESS;
-}
-```
 
 
 ## Download Code
