@@ -1,6 +1,6 @@
 #include "logger.h"
 
-static logLevel_t logLevel = DEBUG;
+static logLevel_t LOG_LEVEL = DEBUG;
 
 /**
  * @brief  Debug Level Name
@@ -9,60 +9,39 @@ static logLevel_t logLevel = DEBUG;
  */
 static const char *debugLevelGetString(logLevel_t selectLogLevel)
 {
-    if (selectLogLevel <= ERROR)
+    if (selectLogLevel <= ASSERT)
+        return "ASSRT";
+    else if (selectLogLevel <= ERROR)
         return "ERROR";
     else if (selectLogLevel <= WARNING)
         return "WARN";
     else if (selectLogLevel <= INFO)
         return "INFO";
-    return "DEBG";
+    return "DEBUG";
 }
 
-void setLogLevel(logLevel_t LOG_LEVEL)
+void setLogLevel(logLevel_t logLevel)
 {
-    logLevel = LOG_LEVEL;
+	LOG_LEVEL = logLevel;
 }
 
-void logger(logLevel_t selectLogLevel, const char *format, ...)
+int debug_printf(logLevel_t logLevel,const char* function, const char* file, const int line, const char *format,...)
 {
-    va_list va;
-    va_start(va, format);
+#ifdef DEBUGGER
+	if ( logLevel <= LOG_LEVEL )
+	{
+		fprintf(stdout,"[%s]%s %s(%d) ",debugLevelGetString(logLevel),file,function,line);
 
-    if (selectLogLevel <= logLevel)
-    {
-        char timeBuf[30];
-        time_t TIME = time(NULL);
-        struct tm *timenow = gmtime(&TIME);
-        strftime(timeBuf, sizeof(timeBuf), "%Y/%m/%d %X", timenow);
-
-        fprintf(stdout, "[%s]: %s ", debugLevelGetString(selectLogLevel), timeBuf);
-        vfprintf(stdout, format, va);
-    }
-    va_end(va);
-    return;
-}
-void flogger(logLevel_t selectLogLevel, const char *format, ...)
-{
-    va_list va;
-    va_start(va, format);
-
-    if (selectLogLevel <= logLevel)
-    {
-        char filename[60];
-        char timeBuf[30];
-        time_t TIME = time(NULL);
-        struct tm *timenow = gmtime(&TIME);
-
-        strftime(filename, sizeof(filename), "%Y_%m_%d_App.log", timenow);
-        strftime(timeBuf, sizeof(timeBuf), "%Y/%m/%d %X", timenow);
-        FILE *file = fopen(filename, "a");
-        fprintf(file, "[%s]: %s ", debugLevelGetString(selectLogLevel),timeBuf);
-
-        vfprintf(file, format, va);
-        va_end(va);
-        fclose(file);
-        return;
-    }
-    va_end(va);
-    return;
+		va_list va;
+		va_start(va,format);
+		va_end(va);
+		vfprintf(stdout,format,va);
+	}
+#else
+    (void)function;
+    (void)file;
+    (void)line;
+    (void)format;
+#endif
+	return 0;
 }
