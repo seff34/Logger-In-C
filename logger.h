@@ -7,19 +7,34 @@
 #include <stdint.h>
 #include <time.h>
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdarg.h>
+
+#define DEBUGGER
+
 typedef enum
 {
-    ERROR   = 0,
-    WARNING = 1,
-    INFO    = 2, 
-    DEBUG   = 3, 
-}logLevel_t; 
+	ASSERT  = 0,
+    ERROR   = 1,
+    WARNING = 2,
+    INFO    = 3,
+    DEBUG    = 4,
+}logLevel_t;
 
 /**
- * @brief Set the Log Level object
- * @param LOG_LEVEL Selection
+ * @brief  Set Debug Level
+ * @param  [in] LOG_LEVEL ( ASSERT-ERROR-WARNING-INFO-DEBUG )
  */
-void setLogLevel(logLevel_t LOG_LEVEL);
+void setLogLevel(logLevel_t logLevel);
+
+#define debugAssert(...) 	debug_printf(ASSERT ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugError(...) 	debug_printf(ERROR  ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugWarning(...) 	debug_printf(WARNING,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugInfo(...) 	    debug_printf(INFO   ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
+#define debugf(...) 	    debug_printf(DEBUG  ,__FUNCTION__,__FILE__,__LINE__,__VA_ARGS__)
 
 /**
  * @brief Logger by stdout
@@ -27,15 +42,7 @@ void setLogLevel(logLevel_t LOG_LEVEL);
  * @param [in] format Printf Format
  * @param  ... Argumans
  */
-void logger(logLevel_t selectLogLevel, const char *format,...);
-
-/**
- * @brief Logger by file
- * @param [in] selectLogLevel Log Level
- * @param [in] format Printf Format
- * @param  ... Argumans
- */
-void flogger(logLevel_t selectLogLevel, const char *format,...);
+int debug_printf(logLevel_t logLevel,const char* function, const char* file, const int line, const char *format,...);
 
 
 #endif
